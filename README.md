@@ -1,21 +1,5 @@
-# nuxtVuetify
-# prova
-## Build Setup
-
-```bash
-# install dependencies
-$ npm install
-
-# serve with hot reload at localhost:3000
-$ npm run dev
-
-# build for production and launch server
-$ npm run build
-$ npm run start
-
-# generate static project
-$ npm run generate
-```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
-# nuxtVuetify
+# Nuxt Vuetify - Marc Martí Mas
+Aplicació feta amb nuxt (SSR) on hi ha 2 CRUDs de tasques i comentaris, utilitzant el
+localStorage per a la persistència de dades i els tests corresponents fets amb WDIO.
+També s'ha fet una interfície per al login d'usuaris que encara no és funcional.
+## [Enllaç a explotació](http://www.nuxtvuetify.marcmartimas.codes)
