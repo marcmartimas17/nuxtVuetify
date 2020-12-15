@@ -141,10 +141,25 @@
 
 <script>
 import { v4 as uuidv4 } from 'uuid'
-import { tasksStorage, listTasksDisplay, filters } from '../repositori/tasks'
+import {
+  // tasksStorage,
+  // tasksStorageApi,
+  listTasksDisplay,
+  filters,
+} from '../repositori/tasks'
 
 export default {
   name: 'Tasks',
+  async asyncData({ $axios }) {
+    $axios.setToken('0ggjms3XRewZg27oPnSTqn2S9wHcpMs6kEXfhW0v', 'Bearer')
+    const response = await $axios.$get(
+      // 'http://laravelserver.test/api/v1/user/tasks'
+      'http://127.0.0.1:8000/api/v1/user/tasks'
+    )
+    return {
+      tasks: response,
+    }
+  },
   data() {
     return {
       active: true,
@@ -179,7 +194,16 @@ export default {
   watch: {
     tasks: {
       handler(tasks) {
-        tasksStorage.save(tasks)
+        // tasksStorage.save(tasks)
+        this.$axios.setToken(
+          '0ggjms3XRewZg27oPnSTqn2S9wHcpMs6kEXfhW0v',
+          'Bearer'
+        )
+        this.$axios.$put(
+          // 'http://laravelserver.test/api/v1/user/tasks'
+          'http://127.0.0.1:8000/api/v1/user/tasks',
+          { tasks }
+        )
       },
       deep: true,
     },
@@ -195,7 +219,7 @@ export default {
     i carregar totes les tasques a l'array Filtered */
 
   mounted() {
-    this.tasks = tasksStorage.fetch()
+    // this.tasks = tasksStorage.fetch()
     this.displayList = listTasksDisplay.fetch()
     window.addEventListener('hashchange', this.onHashChange)
     this.onHashChange()

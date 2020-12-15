@@ -9,6 +9,20 @@ const tasksStorage = {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(todos))
   },
 }
+
+const tasksStorageApi = {
+  async fetch($axios) {
+    // 0ggjms3XRewZg27oPnSTqn2S9wHcpMs6kEXfhW0v
+    $axios.setToken('0ggjms3XRewZg27oPnSTqn2S9wHcpMs6kEXfhW0v', 'Bearer')
+    const response = await $axios.$get(
+      // 'http://laravelserver.test/api/v1/user/tasks'
+      'http://127.0.0.1:8000/api/v1/user/tasks'
+    )
+    return response
+  },
+  save() {},
+}
+
 // Constant per al tractament del localstorage (Amagar/mostrar card)
 const STATUS_KEY = 'card-tasks-status'
 const listTasksDisplay = {
@@ -37,4 +51,4 @@ const filters = {
     })
   },
 }
-export { tasksStorage, listTasksDisplay, filters }
+export { tasksStorage, tasksStorageApi, listTasksDisplay, filters }
