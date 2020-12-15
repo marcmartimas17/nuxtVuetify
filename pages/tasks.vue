@@ -56,7 +56,7 @@
               </span>
               <v-text-field
                 v-if="taskEdited.id == task.id"
-                v-model="editTitle"
+                v-model="taskEdited.title"
                 autocomplete="off"
                 autofocus
                 qa="input_edit_task"
@@ -251,15 +251,13 @@ export default {
       }
     },
     showTask(task) {
-      this.taskEdited = task
-      this.editTitle = task.title
+      this.taskEdited = { ...task } // Fer una còpia -> Pas per valor i no per referència
     },
     editTask() {
-      if (this.editTitle !== '') {
+      if (this.taskEdited.title !== '') {
         const task = this.tasks.find((t) => t.id === this.taskEdited.id)
-        task.title = this.editTitle
+        task.title = this.taskEdited.title
         this.taskEdited = {}
-        this.editTitle = ''
         this.snackBarMessage = "S'ha editat la tasca correctament"
         this.showSnackbar = true
       } else {
