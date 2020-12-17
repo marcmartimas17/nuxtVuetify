@@ -150,12 +150,10 @@ import {
 
 export default {
   name: 'Tasks',
-  async asyncData({ $axios }) {
-    $axios.setToken('0ggjms3XRewZg27oPnSTqn2S9wHcpMs6kEXfhW0v', 'Bearer')
-    const response = await $axios.$get(
-      // 'http://laravelserver.test/api/v1/user/tasks'
-      'http://127.0.0.1:8000/api/v1/user/tasks'
-    )
+  async asyncData({ $axios, $config }) {
+    $axios.setToken($config.apiToken, 'Bearer')
+    console.log($config)
+    const response = await $axios.$get($config.apiURL + 'user/tasks')
     return {
       tasks: response,
     }
@@ -195,15 +193,10 @@ export default {
     tasks: {
       handler(tasks) {
         // tasksStorage.save(tasks)
-        this.$axios.setToken(
-          '0ggjms3XRewZg27oPnSTqn2S9wHcpMs6kEXfhW0v',
-          'Bearer'
-        )
-        this.$axios.$put(
-          // 'http://laravelserver.test/api/v1/user/tasks'
-          'http://127.0.0.1:8000/api/v1/user/tasks',
-          { tasks }
-        )
+        this.$axios.setToken(this.$config.apiToken, 'Bearer')
+        this.$axios.$put(this.$config.apiURL + 'user/tasks', {
+          tasks,
+        })
       },
       deep: true,
     },
