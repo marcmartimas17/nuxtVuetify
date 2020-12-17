@@ -152,7 +152,6 @@ export default {
   name: 'Tasks',
   async asyncData({ $axios, $config }) {
     $axios.setToken($config.apiToken, 'Bearer')
-    console.log($config)
     const response = await $axios.$get($config.apiURL + 'user/tasks')
     return {
       tasks: response,
