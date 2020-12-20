@@ -275,7 +275,6 @@ export default {
         comment.name = this.commentEdited.name
         comment.body = this.commentEdited.body
         this.commentEdited = {}
-
         this.showSnackbar = true
         this.snackBarMessage = 'Comentari editat correctament'
       } else {
