@@ -252,7 +252,7 @@ export default {
           name: this.newName,
           body: this.newBody,
           read: false,
-          user_id: uuidv4(),
+          user_id: 1,
         }
         this.comments.push(comment)
         this.newName = ''
