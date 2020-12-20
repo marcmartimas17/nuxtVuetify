@@ -66,7 +66,7 @@
               <div style="display: flex">
                 <v-text-field
                   v-if="commentEdited.id == comment.id"
-                  v-model="editName"
+                  v-model="commentEdited.name"
                   qa="name_edit_comment"
                   class="input"
                   autocomplete="off"
@@ -76,7 +76,7 @@
                 ></v-text-field>
                 <v-text-field
                   v-if="commentEdited.id == comment.id"
-                  v-model="editBody"
+                  v-model="commentEdited.body"
                   qa="body_edit_comment"
                   class="input"
                   autocomplete="off"
@@ -165,13 +165,20 @@
 <script>
 import { v4 as uuidv4 } from 'uuid'
 import {
-  commentsStorage,
+  // commentsStorage,
   filters,
   listCommentsDisplay,
 } from '../repositori/comments'
 
 export default {
   name: 'Comments',
+  async asyncData({ $axios, $config }) {
+    $axios.setToken($config.apiToken, 'Bearer')
+    const response = await $axios.$get($config.apiURL + 'user/comments')
+    return {
+      comments: response,
+    }
+  },
   data() {
     return {
       comments: [],
@@ -207,7 +214,11 @@ export default {
   watch: {
     comments: {
       handler(comments) {
-        commentsStorage.save(comments)
+        // commentsStorage.save(comments)
+        this.$axios.setToken(this.$config.apiToken, 'Bearer')
+        this.$axios.$put(this.$config.apiURL + 'user/comments', {
+          comments,
+        })
       },
       deep: true,
     },
@@ -219,7 +230,7 @@ export default {
     },
   },
   mounted() {
-    this.comments = commentsStorage.fetch()
+    // this.comments = commentsStorage.fetch()
     this.displayList = listCommentsDisplay.fetch()
     window.addEventListener('hashchange', this.onHashChange)
     this.onHashChange()
@@ -254,20 +265,17 @@ export default {
       }
     },
     initEdit(comment) {
-      this.commentEdited = comment
-      this.editName = comment.name
-      this.editBody = comment.body
+      this.commentEdited = { ...comment }
     },
     editComment() {
-      if (this.editName !== '' && this.editBody !== '') {
+      if (this.commentEdited.name !== '' && this.commentEdited.body !== '') {
         const comment = this.comments.find(
           (c) => c.id === this.commentEdited.id
         )
-        comment.name = this.editName
-        comment.body = this.editBody
+        comment.name = this.commentEdited.name
+        comment.body = this.commentEdited.body
         this.commentEdited = {}
-        this.editName = ''
-        this.editBody = ''
+
         this.showSnackbar = true
         this.snackBarMessage = 'Comentari editat correctament'
       } else {
